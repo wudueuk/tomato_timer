@@ -1,6 +1,5 @@
 class Importance {
   constructor() {
-    this.ID = Math.floor(Math.random() * 1000).toString();
     this.name = 'default';
     this.count = 0;
     this.imp = ['default', 'important', 'so-so'];

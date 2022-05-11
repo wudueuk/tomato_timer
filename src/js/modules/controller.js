@@ -1,46 +1,38 @@
-import {
-  importantTask,
-  sosoTask,
-  defaultTask,
-} from './timer';
 import Importance from './importance';
+import {AddTask} from './commands';
 
 export class ControllerTomato {
-  constructor() {
+  constructor(tomato, page) {
+    this.tomato = tomato;
+    this.page = page;
     this.btnAddTask = document.querySelector('.task-form__add-button');
-    this.taskName = document.querySelector('.task-name');
+    this.taskTitle = document.querySelector('.task-name');
     this.taskImportance = document.querySelector('.button-importance');
     this.init();
   }
 
   init() {
     this.importance = this.createImportance();
+
     this.btnAddTask.addEventListener('click', e => {
       e.preventDefault();
       this.addTask();
     });
+
+    this.page.tasksList.addEventListener('click', e => {
+      const target = e.target;
+      if (target.classList.contains('pomodoro-tasks__task-text')) {
+        this.tomato.activatedTask(target.closest('.pomodoro-tasks__list-task').
+          dataset.id);
+      }
+    });
   }
 
   addTask() {
-    const task = this.createTask();
-    task.addTask(
-      {
-        id: this.importance.impID,
-        title: this.taskName.value,
-        count: 0,
-      });
-  }
-
-  createTask() {
-    const importance = this.importance.impName;
-    switch (importance) {
-      case 'default':
-        return new defaultTask();
-      case 'important':
-        return new importantTask();
-      case 'so-so':
-        return new sosoTask();
-    }
+    const id = Math.round(Math.random() * 1000);
+    const newTask = new AddTask(id, this.taskTitle.value,
+      this.importance.impName);
+    this.tomato.addTask(newTask);
   }
 
   createImportance() {

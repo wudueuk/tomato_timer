@@ -18,12 +18,6 @@ class RenderTomato {
     const main = this.createMain();
 
     document.body.append(header, main);
-
-    this.createTask({
-      count: 1,
-      name: 'Проверка связи',
-      important: 'default',
-    });
   }
 
   createHeader() {
@@ -131,13 +125,17 @@ class RenderTomato {
   createTask(task) {
     const taskElement = el('li.pomodoro-tasks__list-task', [
       el('span.count-number', `${task.count}`),
-      el('button.pomodoro-tasks__task-text', `${task.name}`),
+      el('button.pomodoro-tasks__task-text', `${task.title}`),
       el('button.pomodoro-tasks__task-button')
     ]);
     taskElement.classList.add(task.important);
+    taskElement.dataset.id = task.id;
 
     this.tasksList.append(taskElement);
-    this.windowTitle.textContent = task.name;
+  }
+
+  setWindowTitle(title) {
+    this.windowTitle.textContent = title;
   }
 }
 
