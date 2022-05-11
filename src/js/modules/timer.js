@@ -6,12 +6,17 @@ class TomatoTimer {
     smallPause: 5,
     bigPause: 15,
   }) {
+    if (TomatoTimer._instance) {
+      return TomatoTimer._instance;
+    }
     this.taskTime = params.defaultTime;
     this.smallPause = params.smallPause;
     this.bigPause = params.bigPause;
     this.tasks = params.tasks;
     this.activeTask = null;
     this.#innerTimer = 0;
+    TomatoTimer._instance = this;
+    this.importance = '';
   }
 
   addTask(task) {
@@ -63,7 +68,6 @@ class TomatoTimer {
     return count;
   }
 
-  /*-----*/
   showTasks() {
     this.tasks.forEach(element => {
       console.log('Задача:', JSON.stringify(element));
@@ -75,4 +79,23 @@ class TomatoTimer {
   }
 }
 
-export default TomatoTimer;
+export class importantTask extends TomatoTimer {
+  constructor(params, importance = 'important') {
+    super(params);
+    this.importance = importance;
+  }
+}
+
+export class sosoTask extends TomatoTimer {
+  constructor(params, importance = 'so-so') {
+    super(params);
+    this.importance = importance;
+  }
+}
+
+export class defaultTask extends TomatoTimer {
+  constructor(params, importance = 'default') {
+    super(params);
+    this.importance = importance;
+  }
+}

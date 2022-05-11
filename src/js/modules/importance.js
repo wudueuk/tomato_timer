@@ -1,8 +1,9 @@
 class Importance {
-  constructor(name) {
+  constructor() {
     this.ID = Math.floor(Math.random() * 1000).toString();
-    this.name = name;
+    this.name = 'default';
     this.count = 0;
+    this.imp = ['default', 'important', 'so-so'];
   }
 
   countUp() {
@@ -12,6 +13,14 @@ class Importance {
 
   changeName(name) {
     this.name = name;
+  }
+
+  get impName() {
+    return this.name;
+  }
+
+  get impID() {
+    return this.ID;
   }
 }
 
